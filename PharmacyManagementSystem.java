@@ -140,33 +140,51 @@ class Pharmacy {
 
     void listMedicines() {
         System.out.println("Medicine Inventory:");
-        for (Medicine med : inventory) {
-            med.display();
+        if (inventory.isEmpty()) {
+            System.out.println("No medicines available.");
+        } else {
+            for (Medicine med : inventory) {
+                med.display();
+            }
         }
     }
 
     void listCustomers() {
         System.out.println("Customer List:");
-        for (Customer customer : customers) {
-            customer.display();
+        if (customers.isEmpty()) {
+            System.out.println("No customers available.");
+        } else {
+            for (Customer customer : customers) {
+                customer.display();
+            }
         }
     }
 
     void checkLowStock() {
         System.out.println("Low Stock Medicines:");
+        boolean found = false;
         for (Medicine med : inventory) {
             if (med.quantity < 10) {
                 System.out.println(med.name + " is running low with " + med.quantity + " units.");
+                found = true;
             }
+        }
+        if (!found) {
+            System.out.println("All medicines have sufficient stock.");
         }
     }
 
     void checkExpiringMedicines() {
         System.out.println("Expiring Medicines:");
+        boolean found = false;
         for (Medicine med : inventory) {
             if (med.expiryDate.compareTo("2024-12-31") <= 0) {
                 System.out.println(med.name + " is expiring soon on " + med.expiryDate);
+                found = true;
             }
+        }
+        if (!found) {
+            System.out.println("No medicines are expiring soon.");
         }
     }
 
@@ -206,8 +224,12 @@ class Pharmacy {
 
     void listOrders() {
         System.out.println("Order History:");
-        for (Order order : orders) {
-            order.display();
+        if (orders.isEmpty()) {
+            System.out.println("No orders available.");
+        } else {
+            for (Order order : orders) {
+                order.display();
+            }
         }
     }
 
@@ -297,97 +319,103 @@ public class PharmacyManagementSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Pharmacy pharmacy = new Pharmacy();
-
         pharmacy.loadMedicines();
         pharmacy.loadCustomers();
         pharmacy.loadOrders();
 
         while (true) {
-            System.out.println("\nPharmacy Management System");
-            System.out.println("1. Add Medicine");
-            System.out.println("2. Add Customer");
-            System.out.println("3. Create Order");
-            System.out.println("4. List Medicines");
-            System.out.println("5. List Customers");
-            System.out.println("6. List Orders");
-            System.out.println("7. Check Low Stock");
-            System.out.println("8. Check Expiring Medicines");
-            System.out.println("9. Apply Discount");
-            System.out.println("0. Exit");
-            System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                System.out.println("1. Add Medicine");
+                System.out.println("2. Add Customer");
+                System.out.println("3. Create Order");
+                System.out.println("4. List Medicines");
+                System.out.println("5. List Customers");
+                System.out.println("6. List Orders");
+                System.out.println("7. Check Low Stock");
+                System.out.println("8. Check Expiring Medicines");
+                System.out.println("9. Apply Discount");
+                System.out.println("0. Exit");
+                System.out.print("Choose an option: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter medicine name: ");
-                    String medName = scanner.nextLine();
-                    System.out.print("Enter quantity: ");
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Enter expiry date (YYYY-MM-DD): ");
-                    String expiryDate = scanner.nextLine();
-                    System.out.print("Enter price: ");
-                    double price = scanner.nextDouble();
-                    pharmacy.addMedicine(medName, quantity, expiryDate, price);
-                    break;
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter medicine name: ");
+                        String medName = scanner.nextLine();
+                        System.out.print("Enter quantity: ");
+                        int quantity = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter expiry date (YYYY-MM-DD): ");
+                        String expiryDate = scanner.nextLine();
+                        System.out.print("Enter price: ");
+                        double price = scanner.nextDouble();
+                        scanner.nextLine();
+                        pharmacy.addMedicine(medName, quantity, expiryDate, price);
+                        break;
 
-                case 2:
-                    System.out.print("Enter customer name: ");
-                    String custName = scanner.nextLine();
-                    System.out.print("Enter contact: ");
-                    String contact = scanner.nextLine();
-                    pharmacy.addCustomer(custName, contact);
-                    break;
+                    case 2:
+                        System.out.print("Enter customer name: ");
+                        String custName = scanner.nextLine();
+                        System.out.print("Enter contact: ");
+                        String contact = scanner.nextLine();
+                        pharmacy.addCustomer(custName, contact);
+                        break;
 
-                case 3:
-                    System.out.print("Enter customer name: ");
-                    String customerName = scanner.nextLine();
-                    System.out.print("Enter medicine name: ");
-                    String medicineName = scanner.nextLine();
-                    System.out.print("Enter quantity: ");
-                    int orderQuantity = scanner.nextInt();
-                    pharmacy.createOrder(customerName, medicineName, orderQuantity);
-                    break;
+                    case 3:
+                        System.out.print("Enter customer name: ");
+                        String customerName = scanner.nextLine();
+                        System.out.print("Enter medicine name: ");
+                        String medicineName = scanner.nextLine();
+                        System.out.print("Enter quantity: ");
+                        int orderQuantity = scanner.nextInt();
+                        scanner.nextLine();
+                        pharmacy.createOrder(customerName, medicineName, orderQuantity);
+                        break;
 
-                case 4:
-                    pharmacy.listMedicines();
-                    break;
+                    case 4:
+                        pharmacy.listMedicines();
+                        break;
 
-                case 5:
-                    pharmacy.listCustomers();
-                    break;
+                    case 5:
+                        pharmacy.listCustomers();
+                        break;
 
-                case 6:
-                    pharmacy.listOrders();
-                    break;
+                    case 6:
+                        pharmacy.listOrders();
+                        break;
 
-                case 7:
-                    pharmacy.checkLowStock();
-                    break;
+                    case 7:
+                        pharmacy.checkLowStock();
+                        break;
 
-                case 8:
-                    pharmacy.checkExpiringMedicines();
-                    break;
+                    case 8:
+                        pharmacy.checkExpiringMedicines();
+                        break;
 
-                case 9:
-                    System.out.print("Enter customer name: ");
-                    String discountCustomer = scanner.nextLine();
-                    System.out.print("Enter discount percentage: ");
-                    double discountPercentage = scanner.nextDouble();
-                    pharmacy.applyDiscountToOrder(discountCustomer, discountPercentage);
-                    break;
+                    case 9:
+                        System.out.print("Enter customer name: ");
+                        String discountCustomer = scanner.nextLine();
+                        System.out.print("Enter discount percentage: ");
+                        double discountPercentage = scanner.nextDouble();
+                        scanner.nextLine();
+                        pharmacy.applyDiscountToOrder(discountCustomer, discountPercentage);
+                        break;
 
-                case 0:
-                    System.out.println("Exiting system...");
-                    pharmacy.saveMedicines();
-                    pharmacy.saveCustomers();
-                    pharmacy.saveOrders();
-                    scanner.close();
-                    return;
+                    case 0:
+                        System.out.println("Exiting system...");
+                        pharmacy.saveMedicines();
+                        pharmacy.saveCustomers();
+                        pharmacy.saveOrders();
+                        scanner.close();
+                        return;
 
-                default:
-                    System.out.println("Invalid option. Please try again.");
+                    default:
+                        System.out.println("Invalid option. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+                scanner.nextLine();
             }
         }
     }
